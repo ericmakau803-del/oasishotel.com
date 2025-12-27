@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grand Oasis Luxury Hotel & Spa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Poppins:wght@300;400;600&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #f4f4f4;
+        }
+
+        /* Hotel Section Styles */
+        #hotel-section {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            transition: 1s ease-out;
+        }
+
+        #hotel-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        #hotel-section p {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            padding: 15px 40px;
+            background: #c5a059;
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #a38245;
+        }
+
+        /* Surprise Section Styles */
+        #surprise-section {
+            display: none;
+            height: 100vh;
+            background: #fff0f5;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fadeIn 2s;
+        }
+
+        .options-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 200px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-10px); background: #ffe4e1; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+            z-index: 100;
+            max-width: 80%;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 50;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="hotel-section">
+        <p>WELCOME TO</p>
+        <h1>THE GRAND OASIS</h1>
+        <p>Luxury Suites & Private Villas</p>
+        <button class="cta-btn" onclick="revealSurprise()">See what is in store for you</button>
+    </div>
+
+    <div id="surprise-section">
+        <h1 style="font-family: 'Playfair Display'; color: #d63384;">Surprise! ❤️</h1>
+        <p>Select a box to open your heart's desire...</p>
+        
+        <div class="options-container">
+            <div class="card" onclick="openModal('jar')">🫙<br><h3>Love Jar</h3></div>
+            <div class="card" onclick="openModal('letter')">💌<br><h3>Love Letter</h3></div>
+            <div class="card" onclick="openModal('gift')">🎁<br><h3>The Gift</h3></div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal">
+        <div id="modal-content"></div>
+        <br>
+        <button onclick="closeModal()" style="padding: 10px 20px; border: none; background: #ff4d6d; color: white; border-radius: 5px; cursor: pointer;">Close</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="your-music-file.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function revealSurprise() {
+            document.getElementById('hotel-section').style.display = 'none';
+            document.getElementById('surprise-section').style.display = 'flex';
+            // Start music when button is clicked
+            let music = document.getElementById('bg-music');
+            music.play().catch(e => console.log("Music needs user interaction first"));
+        }
+
+        function openModal(type) {
+            let content = "";
+            let modal = document.getElementById('modal');
+            let overlay = document.getElementById('overlay');
+            let modalContent = document.getElementById('modal-content');
+
+            if(type === 'jar') {
+                content = "<h3>Your Love Jar 🫙</h3><p>Reasons why I love you:<br>1. Your smile.<br>2. Vile unacheka ukishiba.<br>3. How you support me kila siku.</p>";
+            } else if(type === 'letter') {
+                content = "<h3>A Note for You 💌</h3><p style='font-size: 1.2rem; font-style: italic;'>'Nakupenda fala hii nini huelewi... We ndio msupa wangu wa nguvu kule kule!'</p>";
+            } else if(type === 'gift') {
+                content = "<h3>A Special Gift 🎁</h3><h1 style='color: #d63384;'>For you, VICKY!</h1><p>You are my greatest treasure.</p>";
+            }
+
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
